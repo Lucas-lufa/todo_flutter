@@ -15,9 +15,7 @@ class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: (widget.index % 2 == 0)
-          ? const Color.fromARGB(255, 0, 188, 212)
-          : Colors.red,
+      color: Colors.cyan[100 * widget.index],
       child: Row(
         children: [
           Expanded(
@@ -44,3 +42,8 @@ class _TodoWidgetState extends State<TodoWidget> {
     );
   }
 }
+
+
+//  (widget.index % 2 == 0)
+//           ? const Color.fromARGB(255, 0, 188, 212)
+//           : Colors.red
