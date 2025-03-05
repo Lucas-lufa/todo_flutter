@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import './models/todo.dart';
+import 'package:ljf_todo/models/todo_list.dart';
+import 'package:provider/provider.dart';
+
+import './views/todo_widget.dart';
 
 void main() {
-  runApp(const TodoApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => TodoList(),
+    child: const TodoApp(),
+  ));
 }
 
 class TodoApp extends StatelessWidget {
@@ -18,6 +24,7 @@ class TodoApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const TodoHomePage(title: 'Todo Application'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -32,53 +39,22 @@ class TodoHomePage extends StatefulWidget {
 }
 
 class _TodoHomePageState extends State<TodoHomePage> {
-  final List<Todo> _todos = <Todo>[
-    Todo(
-      name: 'Complete Assignment',
-      description: 'Figure out how to write dart code.',
-    ),
-    Todo(name: 'Shopping', description: 'Pick up groceries'),
-    Todo(name: 'Cook', description: 'Cook dinner with groceries'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemCount: _todos.length,
-        itemBuilder: (BuildContext context, int index) {
-          return getTodoWidget(_todos[index]);
-        },
-      ),
+      body: Consumer<TodoList>(builder: (context, value, child) {
+        return ListView.builder(
+            itemCount: value.todoCount,
+            itemBuilder: (BuildContext context, int index) {
+              return TodoWidget(
+                todo: value.todos[index],
+                index: index,
+              );
+            });
+      }),
     );
   }
-
-  Widget getTodoWidget(Todo todo) {
-    return Container(
-      color: Colors.cyan,
-      // color: () = (index % 2 == 0) Colors.cyan ?? Colors.red,
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                Text(
-                  todo.name,
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                Text(
-                  todo.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
+} //_TodoHomePageState
