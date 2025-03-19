@@ -20,7 +20,7 @@ class TodoApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo Application',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
         useMaterial3: true,
       ),
       home: const TodoHomePage(title: 'Todo Application'),
@@ -44,13 +44,19 @@ class _TodoHomePageState extends State<TodoHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        actions: [
+          Consumer<TodoList>(builder: (context, model, child) {
+            return Text('Completed ${model.completed} / ${model.todoCount}  ');
+          }),
+        ],
       ),
-      body: Consumer<TodoList>(builder: (context, value, child) {
+      body: Consumer<TodoList>(builder: (context, model, child) {
         return ListView.builder(
-            itemCount: value.todoCount,
+            itemCount: model.todoCount,
             itemBuilder: (BuildContext context, int index) {
               return TodoWidget(
-                todo: value.todos[index],
+                todo: model.todos[index],
                 index: index,
               );
             });

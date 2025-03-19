@@ -15,7 +15,28 @@ class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.cyan[100 * widget.index],
+      margin: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.green,
+            offset: const Offset(
+              5.0,
+              5.0,
+            ),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ), //BoxShadow
+          BoxShadow(
+            color: Colors.white,
+            offset: const Offset(0.0, 0.0),
+            blurRadius: 0.0,
+            spreadRadius: 0.0,
+          ), //BoxShadow
+        ],
+      ),
+      // color: Theme.of(context).colorScheme.primaryContainer,
       child: Row(
         children: [
           Expanded(
@@ -33,9 +54,15 @@ class _TodoWidgetState extends State<TodoWidget> {
               ],
             ),
           ),
-          FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.favorite),
+          Flexible(
+            child: Center(
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: Icon(widget.todo.complete
+                    ? Icons.favorite
+                    : Icons.favorite_border),
+              ),
+            ),
           ),
         ],
       ),
