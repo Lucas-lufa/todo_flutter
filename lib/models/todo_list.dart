@@ -56,8 +56,8 @@ class TodoList extends ChangeNotifier {
     notifyListeners();
   }
 
-  void UpdateTodo(Todo todo) {
-    _todos.firstWhere((t) => t.name == todo.name) == todo;
+  void UpdateTodo(Todo todo, int index) {
+    _todos[index] = todo;
     notifyListeners();
   }
 }

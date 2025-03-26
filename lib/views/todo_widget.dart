@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ljf_todo/models/todo_list.dart';
+import 'package:provider/provider.dart';
 
 import '../models/todo.dart';
 
@@ -57,7 +59,12 @@ class _TodoWidgetState extends State<TodoWidget> {
           Flexible(
             child: Center(
               child: FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  bool complete = !widget.todo.complete;
+                  int has = widget.todo.hashCode;
+                  Provider.of<TodoList>(context, listen: false).UpdateTodo(
+                      widget.todo.copyWith(complete: complete), widget.index);
+                },
                 child: Icon(widget.todo.complete
                     ? Icons.favorite
                     : Icons.favorite_border),
