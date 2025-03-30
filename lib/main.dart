@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ljf_todo/models/todo_list.dart';
+import 'package:ljf_todo/services/i_data_source.dart';
+import 'package:ljf_todo/services/sql_datasource.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 import './views/todo_widget.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => TodoList(),
-    child: const TodoApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.putAsync<IDataSource>(() => SqlDatasource.createAsync())
+      .whenComplete(() => runApp(ChangeNotifierProvider(
+            create: (context) => TodoList(),
+            child: const TodoApp(),
+          )));
 }
 
 class TodoApp extends StatelessWidget {
@@ -52,14 +57,17 @@ class _TodoHomePageState extends State<TodoHomePage> {
         ],
       ),
       body: Consumer<TodoList>(builder: (context, model, child) {
-        return ListView.builder(
-            itemCount: model.todoCount,
-            itemBuilder: (BuildContext context, int index) {
-              return TodoWidget(
-                todo: model.todos[index],
-                index: index,
-              );
-            });
+        return RefreshIndicator(
+          onRefresh: model.Refresh,
+          child: ListView.builder(
+              itemCount: model.todoCount,
+              itemBuilder: (BuildContext context, int index) {
+                return TodoWidget(
+                  todo: model.todos[index].copyWith(index: index),
+                  index: index,
+                );
+              }),
+        );
       }),
     );
   }

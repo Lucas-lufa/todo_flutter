@@ -7,7 +7,11 @@ import '../models/todo.dart';
 class TodoWidget extends StatefulWidget {
   final Todo todo;
   final int index;
-  const TodoWidget({super.key, required this.todo, this.index = 0});
+  const TodoWidget({
+    super.key,
+    required this.todo,
+    required this.index,
+  });
 
   @override
   State<TodoWidget> createState() => _TodoWidgetState();
@@ -61,9 +65,10 @@ class _TodoWidgetState extends State<TodoWidget> {
               child: FloatingActionButton(
                 onPressed: () {
                   bool complete = !widget.todo.complete;
-                  int has = widget.todo.hashCode;
+                  // int has = widget.todo.hashCode;
                   Provider.of<TodoList>(context, listen: false).UpdateTodo(
-                      widget.todo.copyWith(complete: complete), widget.index);
+                      widget.todo.copyWith(newComplete: complete),
+                      widget.todo.index!);
                 },
                 child: Icon(widget.todo.complete
                     ? Icons.favorite

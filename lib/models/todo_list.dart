@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:ljf_todo/services/i_data_source.dart';
 import 'todo.dart';
 
 // this is our state object - contains our data
@@ -40,9 +42,10 @@ class TodoList extends ChangeNotifier {
     return _todos.where((todo) => todo.complete).length;
   }
 
-  void Add(Todo todo) {
-    _todos.add(todo);
-    notifyListeners();
+  void Add(Todo todo) async {
+    IDataSource dataSource = Get.find();
+    await dataSource.add(todo);
+    await Refresh();
     // _todos.insert(index, todo);
   }
 
@@ -59,5 +62,13 @@ class TodoList extends ChangeNotifier {
   void UpdateTodo(Todo todo, int index) {
     _todos[index] = todo;
     notifyListeners();
+  }
+
+  Future<List<Todo>> Refresh() async {
+    IDataSource dataSource = Get.find();
+    RemoveAll();
+    _todos.addAll(await dataSource.browse());
+    notifyListeners();
+    return todos;
   }
 }

@@ -2,13 +2,15 @@ class Todo {
   final String id;
   final String name;
   final String description;
+  final int? index;
   final bool complete;
 
   Todo(
       {required this.id,
       required this.name,
       required this.description,
-      this.complete = false});
+      this.index,
+      required this.complete});
 
   @override
   String toString() {
@@ -19,12 +21,14 @@ class Todo {
       {String? newId,
       String? newName,
       String? newDescription,
-      bool? complete}) {
+      int? index,
+      bool? newComplete}) {
     return Todo(
         id: newId ?? id,
         name: newName ?? name,
         description: newDescription ?? description,
-        complete: complete ?? this.complete);
+        index: index ?? this.index,
+        complete: newComplete ?? complete);
   }
 
   Map<String, dynamic> toMap() {

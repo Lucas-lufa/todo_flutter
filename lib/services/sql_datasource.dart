@@ -7,27 +7,29 @@ import 'i_data_source.dart';
 class SqlDatasource implements IDataSource {
   late Database _database;
 
-  static Future<IDataSource>createAsync() async {
+  static Future<IDataSource> createAsync() async {
     SqlDatasource datasource = SqlDatasource();
     await datasource.initalise();
     return datasource;
   }
 
   Future initalise() async {
-    _database =
-        await openDatabase(join(await getDatabasesPath(), 'todos_data.db'),
-        version: 1,
-        onCreate: (db, version) => {
-          db.execute(
+    _database = await openDatabase(
+      join(await getDatabasesPath(), 'todos_data.db'),
+      version: 1,
+      onCreate: (db, version) => {
+        db.execute(
             'CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY, name TEXT, description TEXT, complete INTEGER)')
-        },
-        );
+      },
+    );
   }
 
   @override
-  Future<bool> add(Todo model) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<bool> add(Todo todo) async {
+    Map<String, dynamic> toInsert = todo.toMap();
+    toInsert.remove('id');
+    int result = await _database.insert('todos', toInsert);
+    return result != 0;
   }
 
   @override
@@ -37,24 +39,35 @@ class SqlDatasource implements IDataSource {
       return Todo.fromMap(results[index]);
     });
   }
-    
+
+  @override
+  Future<bool> delete(Todo todo) async {
+    int result = await _database.delete('todos', where: '?', whereArgs: ['id']);
+    return result == 1;
   }
 
   @override
-  Future<bool> delete(Todo model) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> edit(Todo todo,
+      {String? name, String? description, bool? complete}) async {
+    Map<String, dynamic> vales = {};
+    if (name != null) {
+      vales['name'] = name;
+    }
+    if (description != null) {
+      vales['description'] = description;
+    }
+    if (complete != null) {
+      vales['complete'] = complete;
+    }
+    int result = await _database
+        .update('todos', vales, where: '?', whereArgs: [todo.id]);
+    return result > 0;
   }
 
   @override
-  Future<bool> edit(Todo model) {
-    // TODO: implement edit
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool?> read(Todo id) {
-    // TODO: implement read
-    throw UnimplementedError();
+  Future<bool?> read(Todo id) async {
+    List<Map<String, dynamic>> result =
+        await _database.query('todos', whereArgs: [id]);
+    return result.length == 1;
   }
 }
