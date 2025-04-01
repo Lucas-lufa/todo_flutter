@@ -9,30 +9,35 @@ import 'todo.dart';
 class TodoList extends ChangeNotifier {
   final List<Todo> _todos = <Todo>[
     Todo(
-        id: '1',
-        name: 'Complete Assignment',
-        description: 'Figure out how to write dart code.',
-        complete: true),
+      id: 1,
+      name: 'Complete Assignment',
+      description: 'Figure out how to write dart code.',
+      complete: true,
+    ),
     Todo(
-        id: '3',
-        name: 'Shopping',
-        description: 'Pick up groceries',
-        complete: false),
+      id: 3,
+      name: 'Shopping',
+      description: 'Pick up groceries',
+      complete: false,
+    ),
     Todo(
-        id: '4',
-        name: 'Cook',
-        description: 'Cook dinner with groceries',
-        complete: false),
+      id: 4,
+      name: 'Cook',
+      description: 'Cook dinner with groceries',
+      complete: false,
+    ),
     Todo(
-        id: '5',
-        name: 'Cook',
-        description: 'Cook dinner with groceries',
-        complete: false),
+      id: 5,
+      name: 'Cook',
+      description: 'Cook dinner with groceries',
+      complete: false,
+    ),
     Todo(
-        id: '6',
-        name: 'Cook',
-        description: 'Cook dinner with groceries',
-        complete: true),
+      id: 6,
+      name: 'Cook',
+      description: 'Cook dinner with groceries',
+      complete: true,
+    ),
   ];
 
   UnmodifiableListView<Todo> get todos => UnmodifiableListView(_todos);
