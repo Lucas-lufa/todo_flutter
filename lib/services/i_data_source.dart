@@ -5,5 +5,10 @@ abstract class IDataSource {
   Future<bool> add(Todo model);
   Future<bool> delete(Todo model);
   Future<bool?> read(Todo id);
-  Future<bool> edit(Todo model);
+  Future<bool> edit(
+    Todo model,
+    String? name,
+    String? description,
+    bool? complete,
+  );
 }

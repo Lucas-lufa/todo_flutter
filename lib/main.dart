@@ -101,7 +101,7 @@ class _TodoHomePageState extends State<TodoHomePage> {
                   onPressed: () {
                     value.Add(
                       Todo(
-                        id: 0, //not meaningful
+                        id: '', //not meaningful
                         name: _controlName.text,
                         description: _controlDescription.text,
                       ),

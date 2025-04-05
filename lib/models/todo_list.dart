@@ -64,7 +64,15 @@ class TodoList extends ChangeNotifier {
     notifyListeners();
   }
 
-  void UpdateTodo(Todo todo, int index) {
+  void UpdateTodo(
+    Todo todo,
+    int index,
+    String? name,
+    String? description,
+    bool? complete,
+  ) async {
+    IDataSource dataSource = Get.find();
+    await dataSource.edit(todo, name, description, complete);
     _todos[index] = todo;
     notifyListeners();
   }

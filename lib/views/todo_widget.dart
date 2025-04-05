@@ -7,11 +7,7 @@ import '../models/todo.dart';
 class TodoWidget extends StatefulWidget {
   final Todo todo;
   final int index;
-  const TodoWidget({
-    super.key,
-    required this.todo,
-    required this.index,
-  });
+  const TodoWidget({super.key, required this.todo, required this.index});
 
   @override
   State<TodoWidget> createState() => _TodoWidgetState();
@@ -27,10 +23,7 @@ class _TodoWidgetState extends State<TodoWidget> {
         boxShadow: [
           BoxShadow(
             color: Colors.green,
-            offset: const Offset(
-              5.0,
-              5.0,
-            ),
+            offset: const Offset(5.0, 5.0),
             blurRadius: 10.0,
             spreadRadius: 2.0,
           ), //BoxShadow
@@ -64,15 +57,19 @@ class _TodoWidgetState extends State<TodoWidget> {
             child: Center(
               child: FloatingActionButton(
                 onPressed: () {
-                  bool complete = !widget.todo.complete;
+                  bool updateComplete = !widget.todo.complete;
                   // int has = widget.todo.hashCode;
                   Provider.of<TodoList>(context, listen: false).UpdateTodo(
-                      widget.todo.copyWith(newComplete: complete),
-                      widget.todo.index!);
+                    widget.todo.copyWith(newComplete: updateComplete),
+                    widget.todo.index!,
+                    null,
+                    null,
+                    updateComplete,
+                  );
                 },
-                child: Icon(widget.todo.complete
-                    ? Icons.favorite
-                    : Icons.favorite_border),
+                child: Icon(
+                  widget.todo.complete ? Icons.favorite : Icons.favorite_border,
+                ),
               ),
             ),
           ),

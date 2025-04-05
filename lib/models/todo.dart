@@ -1,5 +1,5 @@
 class Todo {
-  final int id;
+  final String id;
   final String name;
   final String description;
   final int? index;
@@ -19,7 +19,7 @@ class Todo {
   }
 
   Todo copyWith({
-    int? newId,
+    String? newId,
     String? newName,
     String? newDescription,
     int? index,
@@ -49,7 +49,7 @@ class Todo {
     complete ??= map['complete'] == 1 ? true : false;
 
     return Todo(
-      id: map['id'],
+      id: map['id'].toString(),
       name: map['name'],
       description: map['description'],
       complete: complete,

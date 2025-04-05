@@ -17,10 +17,12 @@ class SqlDatasource implements IDataSource {
     _database = await openDatabase(
       join(await getDatabasesPath(), 'todos_data.db'),
       version: 1,
-      onCreate: (db, version) => {
-        db.execute(
-            'CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY, name TEXT, description TEXT, complete INTEGER)')
-      },
+      onCreate:
+          (db, version) => {
+            db.execute(
+              'CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY, name TEXT, description TEXT, complete INTEGER)',
+            ),
+          },
     );
   }
 
@@ -47,8 +49,12 @@ class SqlDatasource implements IDataSource {
   }
 
   @override
-  Future<bool> edit(Todo todo,
-      {String? name, String? description, bool? complete}) async {
+  Future<bool> edit(
+    Todo todo,
+    String? name,
+    String? description,
+    bool? complete,
+  ) async {
     Map<String, dynamic> vales = {};
     if (name != null) {
       vales['name'] = name;
@@ -59,15 +65,21 @@ class SqlDatasource implements IDataSource {
     if (complete != null) {
       vales['complete'] = complete;
     }
-    int result = await _database
-        .update('todos', vales, where: '?', whereArgs: [todo.id]);
+    int result = await _database.update(
+      'todos',
+      vales,
+      where: 'id = ?',
+      whereArgs: [todo.id],
+    );
     return result > 0;
   }
 
   @override
   Future<bool?> read(Todo id) async {
-    List<Map<String, dynamic>> result =
-        await _database.query('todos', whereArgs: [id]);
+    List<Map<String, dynamic>> result = await _database.query(
+      'todos',
+      whereArgs: [id],
+    );
     return result.length == 1;
   }
 }
