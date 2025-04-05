@@ -44,7 +44,11 @@ class SqlDatasource implements IDataSource {
 
   @override
   Future<bool> delete(Todo todo) async {
-    int result = await _database.delete('todos', where: '?', whereArgs: ['id']);
+    int result = await _database.delete(
+      'todos',
+      where: 'id = ?',
+      whereArgs: [todo.id],
+    );
     return result == 1;
   }
 
@@ -78,6 +82,7 @@ class SqlDatasource implements IDataSource {
   Future<bool?> read(Todo id) async {
     List<Map<String, dynamic>> result = await _database.query(
       'todos',
+      where: 'id = ?',
       whereArgs: [id],
     );
     return result.length == 1;

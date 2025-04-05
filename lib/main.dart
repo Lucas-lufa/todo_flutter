@@ -106,6 +106,8 @@ class _TodoHomePageState extends State<TodoHomePage> {
                         description: _controlDescription.text,
                       ),
                     );
+                    _controlName.clear();
+                    _controlDescription.clear();
                     Navigator.pop(context);
                   },
                   child: const Text('Submit.'),
